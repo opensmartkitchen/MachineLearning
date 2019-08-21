@@ -7,7 +7,8 @@ A reimplementation of [Fruit-360 CNN TensorFlow](https://www.kaggle.com/mitch909
 
 ## Get Started
 
-Download the Fruits360 dataset.   We used [github](https://github.com "github hover text") version, but will eventually update to the latest.
+Download the Fruits360 dataset. We used version Version 44 of 60, but we will eventually update to the latest version of the dataset which can be found [here](https://www.kaggle.com/moltean/fruits). Put the folder named fruits-360 inside the folder fruits-360.
+
 Tensorflow 2 was used, but due to stability issues, we disabled the 2.0 behavior.
 
 ```python
