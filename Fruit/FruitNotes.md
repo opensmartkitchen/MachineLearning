@@ -1,9 +1,21 @@
-# MachineLearning
+# MachineLearning: Fruit360 Classifier
 
-Fruit360 Classifier
-A reimplementation of sdfsdf 
+A reimplementation of [Fruit-360 CNN TensorFlow](https://www.kaggle.com/mitch9090/fruit-360-cnn-tensorflow "Fruit 360").
 
-Get Started
 
-Download the Fruits360 dataset.   We used xxx version, but will eventually update to the latest.
-Tensorflow 2 was used but 
+
+
+## Get Started
+
+Download the Fruits360 dataset.   We used [github](https://github.com "github hover text") version, but will eventually update to the latest.
+Tensorflow 2 was used, but due to stability issues, we disabled the 2.0 behavior.
+
+```python
+# python 
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+```
+If you use a version below 2.0, use 
+```python 
+import tensorflow as tf
+```
