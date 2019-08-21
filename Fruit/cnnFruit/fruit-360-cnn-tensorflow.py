@@ -1,9 +1,10 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
 import numpy as np
 import time
 import os
 
-tf.compat.v1.disable_eager_execution()
 IMAGE_HEIGHT = 100
 IMAGE_WIDTH = 100
 IMAGE_CHANNELS = 3
@@ -34,7 +35,7 @@ step_display = 100
 # use the saved model and continue training
 useCkpt = False
 # placeholder for probability to keep the network parameters after an iteration
-keep_prob = tf.compat.v1.placeholder(tf.float32, name='keep_prob')
+keep_prob = tf.placeholder(tf.float32, name='keep_prob')
 
 # -------------------- Write/Read TF record logic --------------------
 class ImageCoder(object):
@@ -42,11 +43,10 @@ class ImageCoder(object):
 
     def __init__(self):
         # Create a single Session to run all image coding calls.
-        #self._sess = tf.compat.v1.python_ioSession()
-        self._sess = tf.compat.v1.Session()
+        self._sess = tf.Session()
 
         # Initializes function that decodes RGB JPEG data.
-        self._decode_jpeg_data = tf.compat.v1.placeholder(dtype=tf.string)
+        self._decode_jpeg_data = tf.placeholder(dtype=tf.string)
         self._decode_jpeg = tf.image.decode_jpeg(self._decode_jpeg_data, channels=3)
 
     def decode_jpeg(self, image_data):
@@ -57,7 +57,7 @@ class ImageCoder(object):
         return image
 
 def write_image_data(dir_name, tfrecords_name):
-    writer = tf.compat.v1.python_io.TFRecordWriter(tfrecords_name)
+    writer = tf.python_io.TFRecordWriter(tfrecords_name)
     coder = ImageCoder()
     image_count = 0
     index = -1
@@ -70,8 +70,7 @@ def write_image_data(dir_name, tfrecords_name):
         for image_name in os.listdir(class_path):
             image_path = class_path + image_name
             image_count += 1
-            #with tf.gfile.FastGFile(image_path, 'rb') as f:
-            with tf.compat.v1.io.gfile.GFile(image_path, 'rb') as f:
+            with tf.gfile.FastGFile(image_path, 'rb') as f:
                 image_data = f.read()
                 example = tf.train.Example(
                     features = tf.train.Features(
@@ -279,11 +278,11 @@ train_images_count, fruit_labels = write_image_data(train_dir, "train.tfrecord")
 test_images_count, _ = write_image_data(validation_dir, "test.tfrecord")
 # ------------------------------------------------------------
 
-with tf.compat.v1.Session() as sess:
+with tf.Session() as sess:
     # placeholder for input layer
-    X = tf.compat.v1.placeholder(tf.float32, [None, input_size], name="X")
+    X = tf.placeholder(tf.float32, [None, input_size], name="X")
     # placeholder for actual labels
-    Y = tf.compat.v1.placeholder(tf.int64, [None], name="Y")
+    Y = tf.placeholder(tf.int64, [None], name="Y")
     
     # build the network
     logits = conv_net(input_layer=X, dropout=dropout)
